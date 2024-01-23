@@ -1,0 +1,59 @@
+version: '3'
+services:
+  #Dashboard Service
+  laravel:
+    build:
+      context: ./src
+      dockerfile: ../config/laravel/Dockerfile
+    ports:
+      - "8085:80"
+    image: digitalocean.com/php
+    container_name: src
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: laravel
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./src/:/var/www
+    networks:
+      - laranet
+
+  #Nginx Backend Service
+  laravel-webserver:
+    image: nginx:alpine
+    container_name: laravel-webserver
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./src/:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - laranet
+    
+  # Database
+  laravel-database:
+    image: mariadb:10.0.22
+    volumes:
+      - laravel-dbdata:/var/lib/mysql
+      - ./config/mysql/conf.d/my.cnf:/etc/mysql/my.cnf
+    environment:
+      MYSQL_DATABASE: example
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_PASSWORD: example
+      MYSQL_USER: example
+    ports:
+      - 33065:3306
+    networks:
+      - laranet
+
+
+#Docker Network
+networks:
+  laranet:
+    driver: bridge
+
+volumes:
+  laravel-dbdata:
+

@@ -1,14 +1,12 @@
 version: '3'
 services:
-  #Dashboard Service
+  # laravel
   laravel:
     build:
       context: ./src
       dockerfile: ../config/laravel/Dockerfile
-    ports:
-      - "8085:80"
     image: digitalocean.com/php
-    container_name: src
+    container_name: laravel
     restart: unless-stopped
     tty: true
     environment:
@@ -20,15 +18,17 @@ services:
     networks:
       - laranet
 
-  #Nginx Backend Service
+  # Nginx Backend Service
   laravel-webserver:
     image: nginx:alpine
     container_name: laravel-webserver
     restart: unless-stopped
     tty: true
+    ports:
+      - "8085:80"
     volumes:
       - ./src/:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./config/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - laranet
     
@@ -49,7 +49,7 @@ services:
       - laranet
 
 
-#Docker Network
+# Docker Network
 networks:
   laranet:
     driver: bridge

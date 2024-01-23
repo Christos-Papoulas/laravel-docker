@@ -27,6 +27,8 @@ docker-compose build
 ```bash
 docker-compose exec laravel bash
 composer create-project laravel/laravel .
+# fix permission
+chown -R www-data:www-data /var/www
 ```
 
 > Ready to go!

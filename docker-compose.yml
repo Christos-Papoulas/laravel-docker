@@ -34,7 +34,7 @@ services:
     
   # Database
   laravel-database:
-    image: mariadb:10.0.22
+    image: mysql:8.3.0
     volumes:
       - laravel-dbdata:/var/lib/mysql
       - ./config/mysql/conf.d/my.cnf:/etc/mysql/my.cnf

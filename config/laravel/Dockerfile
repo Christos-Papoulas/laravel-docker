@@ -1,18 +1,15 @@
-FROM php:8.3-fpm
-
-# Set working directory
-WORKDIR /var/www
+FROM php:8.3-fpm-alpine
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
+RUN apk update && apk add --no-cache \
+    gcc \
+    musl-dev \
+    make \
     mariadb-client \
-    libonig-dev \
     libzip-dev \
     libpng-dev \
-    libjpeg62-turbo-dev \
-    libfreetype6-dev \
-    locales \
+    libjpeg-turbo-dev \
+    freetype-dev \
     zip \
     jpegoptim optipng pngquant gifsicle \
     vim \
@@ -20,30 +17,36 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     nodejs npm \
-    sendmail
-
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# NPM
-RUN npm install npm@latest -g
+    # NPM
+    && npm install npm@latest -g \
+    # Install Oniguruma manually
+    && curl -LO https://github.com/kkos/oniguruma/releases/download/v6.9.9/onig-6.9.9.tar.gz \
+    && tar -xzvf onig-6.9.9.tar.gz \
+    && cd onig-6.9.9 \
+    && ./configure \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -rf onig-6.9.9.tar.gz onig-6.9.9
 
 # Install extensions
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd \
+    # enable opcache
+    && docker-php-ext-install opcache
+
+# Set working directory
+WORKDIR /var/www
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Add user for laravel application
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
+RUN addgroup -g 1000 www && \
+    adduser -u 1000 -D -G www wwww
 
 # Copy existing application directory permissions
-COPY --chown=www:www . /var/www
-
-# Change current user to www
 USER www
 
 # Expose port 9000 and start php-fpm server

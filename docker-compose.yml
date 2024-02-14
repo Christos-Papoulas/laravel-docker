@@ -5,10 +5,12 @@ services:
     build:
       context: ./src
       dockerfile: ../config/laravel/Dockerfile
-    image: digitalocean.com/php
+    image: laravel/testing
     container_name: laravel
     restart: unless-stopped
     tty: true
+    ports:
+      - "5173:5173"
     environment:
       SERVICE_NAME: laravel
       SERVICE_TAGS: dev

@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.3-fpm-alpine3.19
 
 # Install dependencies
 RUN apk update && apk add --no-cache \
@@ -41,12 +41,10 @@ WORKDIR /var/www
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # Add user for laravel application
 RUN addgroup -g 1000 www && \
-    adduser -u 1000 -D -G www wwww
-
-# Copy existing application directory permissions
+    adduser -u 1000 -D -G www www
+# Change current user to www
 USER www
 
 # Expose port 9000 and start php-fpm server

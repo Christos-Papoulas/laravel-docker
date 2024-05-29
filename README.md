@@ -25,7 +25,7 @@ docker-compose build
 - Download latest laravel from git: 
 
 ```bash
-docker-compose exec laravel bash
+docker-compose exec laravel sh
 composer create-project laravel/laravel .
 # fix permission
 chown -R www-data:www-data /var/www

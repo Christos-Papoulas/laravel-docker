@@ -6,6 +6,8 @@ RUN apk update && apk add --no-cache \
     musl-dev \
     make \
     mariadb-client \
+    # for intl extension
+    icu-dev \ 
     libzip-dev \
     libpng-dev \
     libjpeg-turbo-dev \
@@ -34,7 +36,9 @@ RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
     # enable opcache
-    && docker-php-ext-install opcache
+    && docker-php-ext-install opcache \
+    # install intl
+    && docker-php-ext-configure intl && docker-php-ext-install intl
 
 # Set working directory
 WORKDIR /var/www

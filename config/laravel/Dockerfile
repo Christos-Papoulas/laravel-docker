@@ -17,7 +17,8 @@ RUN apk update && apk add --no-cache \
     vim \
     unzip \
     git \
-    curl \
+    curl curl-dev \
+    libxml2-dev openssl-dev zlib-dev \
     nodejs npm \
     # NPM
     && npm install npm@latest -g \
@@ -38,7 +39,9 @@ RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl \
     # enable opcache
     && docker-php-ext-install opcache \
     # install intl
-    && docker-php-ext-configure intl && docker-php-ext-install intl
+    && docker-php-ext-configure intl && docker-php-ext-install intl \
+    # install bcmath
+    && docker-php-ext-install bcmath
 
 # Set working directory
 WORKDIR /var/www

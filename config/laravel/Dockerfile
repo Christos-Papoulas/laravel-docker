@@ -2,10 +2,13 @@ FROM php:8.3-fpm-alpine3.19
 
 # Install dependencies
 RUN apk update && apk add --no-cache \
+    linux-headers \
     gcc \
     musl-dev \
     make \
     mariadb-client \
+    # for xdebug:
+    $PHPIZE_DEPS \
     # for intl extension
     icu-dev \ 
     libzip-dev \
@@ -41,7 +44,9 @@ RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl \
     # install intl
     && docker-php-ext-configure intl && docker-php-ext-install intl \
     # install bcmath
-    && docker-php-ext-install bcmath
+    && docker-php-ext-install bcmath \
+    # xdebug
+    && pecl install xdebug && docker-php-ext-enable xdebug && touch /var/log/xdebug.log && chmod a+w /var/log/xdebug.log
 
 # Set working directory
 WORKDIR /var/www

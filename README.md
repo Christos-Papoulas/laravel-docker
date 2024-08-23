@@ -40,7 +40,7 @@ chown -R www-data:www-data /var/www
 
 > Ready to go!
 
-# XDebug config
+## XDebug config
 
 The Xdebug extension is installed and ready to start debugging.
 

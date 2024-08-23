@@ -52,4 +52,18 @@ from xdebug.client_host=192.168.88.62 to your local IP address
 
 2. Set the ide key to **VSCODE**
 
+3. Configurate the vscode xdebug:
+
+```json
+    "configurations": [
+        {
+            "name": "Listen for Xdebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9003,
+            "pathMappings": {
+                "/var/www/": "${workspaceFolder}/",
+             }
+        },
+```
 > Start debugging your app!

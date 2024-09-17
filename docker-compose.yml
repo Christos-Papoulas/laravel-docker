@@ -40,6 +40,7 @@ services:
     image: mysql:8.3.0
     volumes:
       - laravel-dbdata:/var/lib/mysql
+      - ./config/database/my.cnf:/etc/my.cnf
     environment:
       MYSQL_DATABASE: example
       MYSQL_ROOT_PASSWORD: example

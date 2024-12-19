@@ -1,7 +1,7 @@
-# Simple Dockerized Application for PHP 8.3, XDebug, NGINX, mariadb
+# Simple Dockerized Application for PHP 8.4, XDebug, NGINX, mariadb
 
-This is a simple docker-compose file for installing PHP, Mariadb and nginx 
-- PHP version: **8.3.2**
+This is a simple docker compose file for installing PHP, Mariadb and nginx 
+- PHP version: **8.4.1**
 - Mariadb version: **10.0.22**
 - Composer version: **2.6.6**
 - Nginx: **alpine**
@@ -17,12 +17,12 @@ mkdir src/
 - Build the containers:
 
 ```bash
-docker-compose build
+docker compose build
 ```
 
 ## Run after first installation
 
-- Run the instances: `docker-compose up -d`
+- Run the instances: `docker compose up -d`
 
 
 ### Laravel installation
@@ -32,7 +32,7 @@ You can start a new laravel application in the `./src` folder or clone an existi
 - Example with downloading the latest laravel from git: 
 
 ```bash
-docker-compose exec laravel sh
+docker compose exec laravel sh
 composer create-project laravel/laravel .
 # fix permission
 chown -R www-data:www-data /var/www

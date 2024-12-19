@@ -8,7 +8,7 @@ This is a simple docker-compose file for installing PHP, Mariadb and nginx
 
 ## Installation
 
-- Create the directory for your code, the code must be in the *./src/* folder. and an index.php file must exists in `./src/public/index.php`:
+- Create the directory for your code, the code must be in the *./src/* folder. and an index.php file must exist in `./src/public/index.php`:
 
 ```bash
 mkdir src/

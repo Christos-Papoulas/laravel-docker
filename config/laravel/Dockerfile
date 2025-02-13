@@ -45,6 +45,8 @@ RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl \
     && docker-php-ext-configure intl && docker-php-ext-install intl \
     # install bcmath
     && docker-php-ext-install bcmath \
+    # install package for sqlite3
+    docker-php-ext-install sqlite3 \
     # xdebug
     && pecl install xdebug && docker-php-ext-enable xdebug && touch /var/log/xdebug.log && chmod a+w /var/log/xdebug.log
 
